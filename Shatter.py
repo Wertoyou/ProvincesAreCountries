@@ -81,8 +81,13 @@ system('rm countries.txt')
  
 langfile = open('provincecountries/localisation/countries_l_english.yml', 'w', encoding='utf-8', errors='ignore')
 oldcountrylangfile = codecs.open(eu4dir + 'localisation/countries_l_english.yml', encoding='utf-8', errors='ignore').readlines()
-oldprovincenamefile = codecs.open(eu4dir + 'localisation/prov_names_l_english.yml', encoding='utf-8', errors='ignore').readlines()
-oldprovinceadjfile = codecs.open(eu4dir + 'localisation/prov_names_adj_l_english.yml', encoding='utf-8', errors='ignore').readlines()
+# Okay we even need files like manchu_l_english.yml so let's just take all the _l_english.yml files and concat them
+megalangfilename = 'megalangfile.yml'
+system('cat ' + eu4dir + 'localisation/*_l_english.yml > ./' + megalangfilename)
+megalangfile = codecs.open(megalangfilename, encoding='utf-8', errors='ignore').readlines()
+
+#oldprovincenamefile = codecs.open(eu4dir + 'localisation/prov_names_l_english.yml', encoding='utf-8', errors='ignore').readlines()
+#oldprovinceadjfile = codecs.open(eu4dir + 'localisation/prov_names_adj_l_english.yml', encoding='utf-8', errors='ignore').readlines()
 countrytagoutfile = open(countrytagsoutpath + 'shatteredcountries.txt', 'w')
 oldtagfile = codecs.open(eu4dir + 'common/country_tags/00_countries.txt', encoding='utf-8', errors='ignore').readlines()
  
@@ -131,7 +136,7 @@ def qtwrd(s):
  
 def parseprovincename(provinceid):
     provinceid = provinceid.replace('-', ' ').split(' ')[0]
-    for line in oldprovincenamefile:
+    for line in megalangfile:
         line = line.replace('\t', ' ')
         if line.startswith(' PROV' + provinceid + ':'):
             if line[-1] == '\n':
@@ -142,7 +147,7 @@ def parseprovincename(provinceid):
  
 def parseprovinceadjective(provinceid):
     provinceid = provinceid.replace('-', ' ').split(' ')[0]
-    for line in oldprovinceadjfile:
+    for line in megalangfile:
         line = line.replace('\t', ' ')
         if line.startswith(' PROV_ADJ' + provinceid + ':'):
             if line[-1] == '\n':
@@ -353,7 +358,6 @@ for provincefilename in provincelist:
  
         countrydataoutfile.close()
  
-        countryname = parseprovincename(provinceid)
         adjective = parseprovinceadjective(provinceid)
  
         langfile.write(' ' + countrytag + ':0 ' + countryname + '\r\n')
@@ -407,4 +411,3 @@ for provincefilename in provincelist:
 print("All files were generated. Have a great day!")
  
 terminate()
-
