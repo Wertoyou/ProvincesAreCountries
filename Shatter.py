@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from os import system
 from PIL import Image
 import numpy as np
