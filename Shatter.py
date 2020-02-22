@@ -242,7 +242,7 @@ for provincefilename in provincelist:
  
         countrytag = tag(nextid)
         nextid += 1
-        while istagtaken(countrytag) or countrytag == 'AUX' or countrytag == 'CON':
+        while istagtaken(countrytag) or countrytag in ['AGE', 'AUX', 'CAV', 'CON']:
             countrytag = tag(nextid)
             nextid += 1
  
